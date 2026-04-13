@@ -29,4 +29,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    // references a tabla cliente desde el user relacion 1 a 1
+    public function client(){
+        return $this->hasOne(Client::class);
+    }
 }
