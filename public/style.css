@@ -1,0 +1,101 @@
+
+* {
+    scroll-behavior: smooth;
+}
+
+/* Fondo degradado */
+body {
+    background: linear-gradient(to right, #fdfeff, #a8d0ff);
+    min-height: 100vh;
+}
+
+/* Modo oscuro */
+.dark-mode {
+    /* forzar el color sobre bootstrap  -> !important -> 
+    hazme caso a mi asi es decirlo jeje*/
+    background: #121212 !important;
+    color: white !important;
+}
+
+/* Navbar en modo oscuro */
+.dark-mode .navbar {
+    background-color: #1f1f1f !important;
+}
+
+/* Tarjetas en modo oscuro */
+.dark-mode .custom-card {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Login card en modo oscuro */
+.dark-mode .login-card {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Inputs en modo oscuro */
+.dark-mode input,
+.dark-mode .form-control {
+    background-color: #2a2a2a;
+    color: white;
+    border-color: #444;
+}
+
+/* Navbar texto blanco en dark mode */
+.dark-mode .navbar .nav-link,
+.dark-mode .navbar .navbar-brand {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #dcdcdc !important;
+}
+
+.dark-mode .btn-primary {
+    background-color: #150f0f !important;
+    border-color: #ffffff !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.dark-mode .btn-primary:hover {
+    background-color: #1d3f4d !important;
+    border-color: #0097a7 !important;
+}
+
+
+
+/* CARDS */
+.custom-card {
+    transition: all ease-in-out 0.3s;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+}
+
+/* Wrapper centrado */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+/* Tarjeta del login */
+.login-card {
+    background: white;
+    width: 100%;
+    max-width: 380px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all ease-in-out 0.3s;
+}
+
+/* Hover suave */
+.login-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(40, 183, 255, 0.25);
+}
