@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercici;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class ExerciciController extends Controller
@@ -11,7 +13,12 @@ class ExerciciController extends Controller
      */
     public function index()
     {
-        //
+        // cliente + admin podran ver ejercicios
+
+        // otra version
+        // $ejercicios = Exercici::with('categoria')->get();
+        $exercicis = Exercici::all();
+        return view('exercici.principal', compact('exercicis'));
     }
 
     /**

@@ -30,5 +30,7 @@ Route::middleware(['auth', 'asegurarAdmin'])->group(function () {
     });
 });
 
-
+Route::middleware(['auth'])->group(function(){
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.principal');
+});
 require __DIR__.'/auth.php';
