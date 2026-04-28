@@ -17,11 +17,21 @@ asi no tendre que repiterlo en cada fitxer que añado --}}
 </head>
 
 <body>
+
+    {{-- voy a usar auth y guest mas simple y rapido
+    en vez de usar @if(Auth::check()) else.. --}}
+    @auth
+         {{-- logeado muestra --}}
     @include('layouts.navigation')
     <div class="container-fluid">
 
         @yield('content')
     </div>
+    @endauth
+    @guest
+    {{-- no logeado muestra --}}
+        @yield('content')
+    @endguest
     @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">

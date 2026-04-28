@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('exercici_rutina', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rutina_id')->unique()->constrained()->cascadeOnDelete()
+            $table->foreignId('rutina_id')->constrained()->cascadeOnDelete()
                 ->onUpdate('cascade');
-            $table->foreignId('exercici_id')->unique()->constrained()
+            $table->foreignId('exercici_id')->constrained()
             ->onDelete('cascade')->cascadeOnUpdate();
             $table->integer('series');
             $table->integer('repeticions');

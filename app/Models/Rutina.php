@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Rutina extends Model
 {
     // taulas que se van a omplir massivaamente
-    protected $fillable = ['nom', 'resum', 'duracio'];
+    // aqui tambien me faltaba el id del cliente
+    protected $fillable = ['client_id', 'nom', 'resum', 'duracio'];
 
     // relacion rutinas n a client 1
     public function client()

@@ -20,7 +20,8 @@ class ExerciciController extends Controller
         // otra version
         // $ejercicios = Exercici::with('categoria')->get();
         $exercicis = Exercici::all();
-        return view('exercici.index', compact('exercicis'));
+        $categorias = Categoria::all();
+        return view('exercici.index', compact('exercicis', 'categorias'));
     }
 
     /**

@@ -22,4 +22,7 @@ con button añade ejercicios --}}
             @endif
         </li>
     @endforeach
+    @foreach ($categorias as $categoria)
+        
+    @endforeach
 @endsection

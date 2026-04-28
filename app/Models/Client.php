@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     // taulas que se van a omplir massivaamente
-    protected $fillable = ['dni', 'dataNaixement', 'telefon'];
+    // me faltaba el user_id aqui, si no no se guarda al conectar los dos
+    protected $fillable = ['user_id','dni', 'data_naixement', 'telefon'];
 
     // un cliente solo tiene un perfil de usuario
     public function user()

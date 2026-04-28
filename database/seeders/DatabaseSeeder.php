@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Exercici;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        // Exercici::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
 
         // llamamos al seeders creados (Admin y Categoria)
         /* dos maneras bueno 3 la primera no apta para lo que se nos pedio
