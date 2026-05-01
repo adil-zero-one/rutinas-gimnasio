@@ -140,6 +140,9 @@ class ExerciciController extends Controller
             ]
         );
 
+        // seguramente me faltara un parametro de imagen?? 
+        // (miirar despues cuando creas la vista si fallara o deja actualizar normal)
+
         // actualizar 
         $exercici->update($validarDatosFormulario);
 

@@ -21,6 +21,13 @@ con button añade ejercicios --}}
                 <p>sin categoria</p>
             @endif
         </li>
+        <li>
+            @if ($exercici->imatge)
+                <img src="{{$exercici->imatge}}" width="100">
+            @else
+                <p>sin imagen</p>
+            @endif
+        </li>
     @endforeach
     @foreach ($categorias as $categoria)
         
