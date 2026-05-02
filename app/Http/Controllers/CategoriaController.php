@@ -45,7 +45,7 @@ class CategoriaController extends Controller
 
         // llamar al model encargado de la columna i guardar la categoria nueva
         // apartir de lo que viene en el formulario
-        Categoria::created($request->all());
+        Categoria::create($request->all());
         // redirigir a la llista de categorias con un mensaje
         return redirect()->route('categoria.principal')->with('categoriaCreada', 'Categoria creada correctamente');
     }

@@ -1,46 +1,76 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">
-            {{ config('app.name', 'Laravel') }}
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+
+        <!-- LOGO -->
+        <a class="navbar-brand fw-bold" href="/">
+            MiGimnasio
         </a>
 
+        <!--  BOTÓN HAMBURGUESA -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                       href="{{ route('dashboard') }}">
-                        Dashboard
-                    </a>
-                </li>
+        <!-- NAV  -->
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+
+            <ul class="navbar-nav">
+                {{-- como las rutas no estan en el mmiddleware dle auth me salta error creo
+                voy a descomentar luego a ver si acierto --}}
+                @auth
+                    <!-- SI ESTÁ LOGUEADO -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('categorias.principal') }}">Categorías</a>
+                    </li>
+
+                    {{-- <li class="nav-item">
+                        <a class="nav-link" href="{{ route('rutinas.index') }}">Rutinas</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('exercici.index') }}">Ejercicios</a>
+                    </li>  --}}
+
+                    <!-- PERFIL DROPDOWN -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" data-bs-toggle="dropdown">
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                    Editar perfil
+                                </a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <!-- SI NO ESTÁ LOGUEADO -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#loginSection">Log in</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Register</a>
+                    </li>
+                @endauth
+
             </ul>
 
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        {{ Auth::user()->name }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                Perfil
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item">
-                                    Tancar sessió
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>

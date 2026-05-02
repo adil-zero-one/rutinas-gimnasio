@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RutinaController;
 use App\Http\Controllers\ExerciciController;
 use App\Models\Exercici;
+use Illuminate\Support\Facades\Auth;
 
 // aqui hare la pagina inicial de mi gimnasio - antes del login
 // intentare poner una pequeña introducion de mi aplicacion para el cliente
@@ -16,6 +17,14 @@ Route::get('/', function () {
     despues a lo mejor usare categorias tambien
     */
     $exercicis = Exercici::all();
+
+    /* arreglo, cuando el usuario registrado clicka en el logo
+    lo redirige al landing page que tenia login y cosas que el usuario
+    no quiero que vea, entonces si esta logeado lo voy a redirigir al dashboard
+    */
+    if(Auth::check()){
+        return view('dashboard');
+    }
     return view('welcome', compact('exercicis'));
 });
 
@@ -34,11 +43,17 @@ Route::middleware(['asegurarAdmin'])->group(function () {
     Route::get('/admin', function () {
         return "Hola Admin!";
     });
+    // vaig a provar com funciona el resource, crud entero del controllador
+    // en vez de difinir cada ruta aqui index, create, destroy..
+    // laravel lo hace automaticamente
+    Route::resource('categorias', CategoriaController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.principal');
     Route::get('/ejercicios', [ExerciciController::class, 'index'])->name('exercicis.principal');
+    // Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.principal');
+    Route::resource('rutinas', RutinaController::class);
 });
 require __DIR__ . '/auth.php';
 

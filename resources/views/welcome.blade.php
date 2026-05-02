@@ -1,69 +1,8 @@
-{{-- aqui voy a crear la estractura html que voy a pasar a todas las paginas-views-rutas que voy a usar en mi proyecto
-asi no tendre que repiterlo en cada fitxer que añado --}}
-
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('titulo')</title>
-    {{-- por si quiero añadir css en una sola vista --}}
-    @yield('css')
-
+@extends('layouts.plantilla')
+@section('css')
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-
-<body>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-        <div class="container-fluid" id="navBar15">
-
-            <!-- LOGO / NOMBRE A LA IZQUIERDA -->
-            <a class="navbar-brand" href="/">
-                MiGimnasio
-            </a>
-
-            <!-- BOTÓN HAMBURGUESA MÓVIL -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- CONTENIDO DEL NAV -->
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-
-                @if (Route::has('login'))
-                    <ul class="navbar-nav">
-
-                        @auth
-                            <!-- SI ESTÁ LOGUEADO -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
-                            </li>
-                        @else
-                            <!-- SI NO ESTÁ LOGUEADO -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="#loginSection">Log in</a>
-                            </li>
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">Register</a>
-                                </li>
-                            @endif
-                        @endauth
-
-                    </ul>
-                @endif
-
-            </div>
-        </div>
-    </nav>
-
+@endsection
+@section('content')
     {{-- ***** AQUI COMIENÇA EL BODY DESPUES DEL NAV ******** --}}
     {{-- script toggle mode light switch dark -> light 
 en una practica de javaScript en classe hemos hecho esta actividad
@@ -76,7 +15,7 @@ de dark-light mode, lo implemento aqui tambien  --}}
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card custom-card">
                         {{-- @foreach ($exercicis as $exercici) --}}
-                            <img src="{{ $exercicis[$i]->imatge }}" class="card-img-top" alt="...">
+                        <img src="{{ $exercicis[$i]->imatge }}" class="card-img-top" alt="...">
                         {{-- @endforeach --}}
 
                         <div class="card-body text-center">
@@ -144,7 +83,7 @@ de dark-light mode, lo implemento aqui tambien  --}}
                 <!-- REGISTER -->
                 <div class="text-center small">
                     ¿No tienes cuenta?
-                    <a href="{{route('register')}}">Regístrate</a>
+                    <a href="{{ route('register') }}">Regístrate</a>
                 </div>
 
             </form>
@@ -156,8 +95,8 @@ de dark-light mode, lo implemento aqui tambien  --}}
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>
     @endif
-    @yield('scripts')
 
+@section('scripts')
     {{-- script toggle mode light switch dark -> light --}}
     <script>
         const lightSwitch = document.querySelector("#toggle-mode")
@@ -173,10 +112,6 @@ de dark-light mode, lo implemento aqui tambien  --}}
             }
         })
     </script>
+@endsection
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+@endsection

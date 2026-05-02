@@ -5,4 +5,5 @@ con todos los estilos para solamente cojer el color */
 
 body {
     background: linear-gradient(to right, #fdfeff, #a8d0ff);
+    padding-top: 70px;
 }
