@@ -1,3 +1,7 @@
+@extends('layouts.plantilla')
+@section('css')
+        <link rel="stylesheet" href="staticBg.css">
+@endsection
 <x-guest-layout>
     <p class="text-muted small mb-3">
         Gràcies per registrar-te! Verifica el teu email fent clic a l'enllaç que t'hem enviat.

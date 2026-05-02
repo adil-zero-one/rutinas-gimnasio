@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 @section('css')
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="staticBg.css">
 @endsection
 <x-guest-layout>
 

@@ -19,7 +19,7 @@ asi no tendre que repiterlo en cada fitxer que añado --}}
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <div class="container-fluid" id="navBar15">
 
             <!-- LOGO / NOMBRE A LA IZQUIERDA -->
@@ -68,19 +68,21 @@ asi no tendre que repiterlo en cada fitxer que añado --}}
     {{-- script toggle mode light switch dark -> light 
 en una practica de javaScript en classe hemos hecho esta actividad
 de dark-light mode, lo implemento aqui tambien  --}}
-    <button class="btn btn-dark m-2 mb-0" id="toggle-mode"><span class="text">Dark</span></button>
+    <button class="btn btn-dark m-2 mb-0 text" id="toggle-mode"><span class="text">Dark</span></button>
     <div class="container my-5">
         <div class="row g-4">
 
-            @foreach (['Rutinas', 'Ejercicios', 'Categorías', 'Nutrición', 'Progreso', 'Clases'] as $item)
+            @foreach (['Rutinas', 'Ejercicios', 'Categorías', 'Nutrición', 'Progreso', 'Clases'] as $i => $item)
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card custom-card">
-                        <img src="/img/default.jpg" class="card-img-top" alt="...">
+                        {{-- @foreach ($exercicis as $exercici) --}}
+                            <img src="{{ $exercicis[$i]->imatge }}" class="card-img-top" alt="...">
+                        {{-- @endforeach --}}
 
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $item }}</h5>
 
-                            <a href="#loginSection" class="btn btn-primary discover-btn" >
+                            <a href="#loginSection" class="btn btn-primary discover-btn">
                                 Descúbrelo
                             </a>
                         </div>
@@ -142,7 +144,7 @@ de dark-light mode, lo implemento aqui tambien  --}}
                 <!-- REGISTER -->
                 <div class="text-center small">
                     ¿No tienes cuenta?
-                    <a href="#registerSection">Regístrate</a>
+                    <a href="{{route('register')}}">Regístrate</a>
                 </div>
 
             </form>
@@ -155,23 +157,22 @@ de dark-light mode, lo implemento aqui tambien  --}}
         <div class="h-14.5 hidden lg:block"></div>
     @endif
     @yield('scripts')
-   
-{{-- script toggle mode light switch dark -> light --}}
-<script>
 
-	const lightSwitch = document.querySelector("#toggle-mode")
-	const selectAll = document.querySelector("body")
+    {{-- script toggle mode light switch dark -> light --}}
+    <script>
+        const lightSwitch = document.querySelector("#toggle-mode")
+        const selectAll = document.querySelector("body")
 
-	lightSwitch.addEventListener('click', () => {
-		document.body.classList.toggle('dark-mode')
-		if (document.body.classList.contains('dark-mode')) {
-			lightSwitch.textContent = 'Light'
+        lightSwitch.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode')
+            if (document.body.classList.contains('dark-mode')) {
+                lightSwitch.textContent = 'Light'
 
-		} else {
-			lightSwitch.textContent = 'Dark'
-		}
-	})
-</script>
+            } else {
+                lightSwitch.textContent = 'Dark'
+            }
+        })
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">

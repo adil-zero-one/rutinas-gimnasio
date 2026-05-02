@@ -7,6 +7,9 @@
 body {
     background: linear-gradient(to right, #fdfeff, #a8d0ff);
     min-height: 100vh;
+    /* añado padding hacia arriba asi no se comeria el navbar el contenido del body 
+    al añadir posicion fixa del navbar */
+    padding-top: 70px;
 }
 
 /* Modo oscuro */
@@ -98,4 +101,12 @@ body {
 .login-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 12px 28px rgba(40, 183, 255, 0.25);
+}
+
+/* Posicion fixa del button dark mode */
+#toggle-mode{
+    position: fixed;
+    top: 50px;
+    /* left: 20px; */
+    
 }

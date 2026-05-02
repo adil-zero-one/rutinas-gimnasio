@@ -1,0 +1,8 @@
+/* este fitxero css sera para aplicar solamente
+el el color de fondo a las vistas que quiero, antes ponia el otro fitxero css
+para aplicar el color pero no creo que sea buena idea cargar el fitxero entero
+con todos los estilos para solamente cojer el color */
+
+body {
+    background: linear-gradient(to right, #fdfeff, #a8d0ff);
+}

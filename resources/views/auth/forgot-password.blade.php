@@ -1,6 +1,10 @@
+@extends('layouts.plantilla')
+@section('css')
+        <link rel="stylesheet" href="staticBg.css">
+@endsection
 <x-guest-layout>
     <p class="text-muted small mb-3">
-        Has oblidat la contrasenya? Escriu el teu email i t'enviarem un enllaç per restablir-la.
+        ¿Has olvidado tu contraseña? Escribe tu email y te enviaremos un enlace para restablecerlo.
     </p>
 
     <x-auth-session-status class="mb-3" :status="session('status')" />
@@ -19,7 +23,8 @@
         </div>
 
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Enviar enllaç</button>
+            <button type="submit" class="btn btn-primary">Enviar enlace</button>
         </div>
     </form>
+
 </x-guest-layout>
