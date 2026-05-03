@@ -11,7 +11,127 @@
     <link rel="stylesheet" href="staticBg.css">
 @endsection
 @section('content')
- 
-        <h1 class="mt-4">Bienvenido al Dashboard</h1>
-        hello world
+    {{-- SALUDO --}}
+    <h1 class="fw-bold text-center mb-4">
+        @if (auth()->user()->email === 'admin@admin.cat')
+            Hola Admin!
+        @else
+            Hola sucio {{ Auth::user()->name }}
+        @endif
+    </h1>
+
+    {{-- ICONOS PRINCIPALES --}}
+    <div class="d-flex justify-content-center gap-5 my-4">
+
+        <a href="{{ route('categorias.index') }}" class="text-center dashboard-icon">
+            <p class="mt-2 fw-semibold border-bottom position-relative">Categorías
+                {{-- badges laravel --}}
+                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                    {{ $categorias->count() }}
+                </span>
+            </p>
+        </a>
+
+        <a href="{{ route('rutinas.index') }}" class="text-center dashboard-icon">
+            <p class="mt-2 fw-semibold position-relative">Rutinas
+                {{-- badges laravel --}}
+                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                    {{ $rutinas->count() }}
+                </span>
+            </p>
+        </a>
+
+        <a href="{{ route('ejercicios.index') }}" class="text-center dashboard-icon">
+            <p class="mt-2 fw-semibold position-relative">Ejercicios
+                {{-- badges laravel --}}
+                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                    {{-- este solo mostraba 6 porque esta variable pasa el paginator (6) aunque habia mas ejercicios en bd --}}
+                    {{-- {{ $exercicis->count() }} --}}
+                    {{ $exercicisTotals->count() }}
+                </span>
+            </p>
+        </a>
+
+    </div>
+
+    <hr class="my-5">
+
+    {{-- CATEGORÍAS --}}
+    <h2 class="fw-semibold mb-3 text-center">Nuestras categorías</h2>
+
+    <div class="row g-3">
+        @for ($i = 0; $i < 3; $i++)
+            <div class="col-12 col-md-4">
+                <div class="card custom-card p-3 text-center">
+                    <h5>{{ $categorias[$i]->nom }}</h5>
+                </div>
+            </div>
+        @endfor
+
+        {{-- TARJETA MÁS CATEGORÍAS --}}
+        <div class="col-12 col-md-4">
+            <a href="{{ route('categorias.index') }}" class="card custom-card p-3 text-center">
+                <h5 class="fw-bold">+ Más categorías</h5>
+            </a>
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    {{-- RUTINAS --}}
+    <h2 class="fw-semibold mb-3 text-center">Tus rutinas</h2>
+
+    @if ($rutinas->count() === 0)
+        <p class="text-muted">Oops… no tienes rutinas creadas aún :(</p>
+
+        <a href="{{ route('rutinas.create') }}" class="btn btn-primary mt-2">
+            + Crear rutina
+        </a>
+
+        {{-- RUTINA DE EJEMPLO --}}
+        <div class="card custom-card mt-4 p-3">
+            <h5>Rutina de ejemplo</h5>
+            <p>Puedes modificarla a tu gusto.</p>
+        </div>
+    @else
+        <div class="row g-3">
+            @foreach ($rutinas as $rutina)
+                <div class="col-12 col-md-4">
+                    <div class="card custom-card p-3">
+                        <h5>{{ $rutina->nom }}</h5>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
+    <hr class="my-5">
+
+    {{-- EJERCICIOS --}}
+    <h2 class="fw-semibold mb-3 text-center">Ejercicios que podrían interesarte</h2>
+
+    <div class="row g-3">
+        @foreach ($exercicis as $exercici)
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card custom-card p-2 text-center">
+                    <img src="{{ $exercici->imatge }}" class="img-fluid rounded">
+                    <h6 class="mt-2">{{ $exercici->nom }}</h6>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- copia pegar paginator estilo de proyecto estudiantes  --}}
+    <div class="d-flex justify-content-center mt-4">
+
+        {{-- Mostrando: {{$estudiantes->count()}} estudiantes de {{ $estudiantes -> total()}} --}}
+        Mostrando {{ $exercicis->firstItem() }} al {{ $exercicis->lastItem() }} de {{ $exercicis->total() }}
+        resultados
+
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+
+        {{ $exercicis->links() }}
+    </div>
 @endsection

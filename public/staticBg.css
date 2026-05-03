@@ -3,7 +3,34 @@ el el color de fondo a las vistas que quiero, antes ponia el otro fitxero css
 para aplicar el color pero no creo que sea buena idea cargar el fitxero entero
 con todos los estilos para solamente cojer el color */
 
+*{
+    scroll-behavior: smooth;
+}
+
 body {
     background: linear-gradient(to right, #fdfeff, #a8d0ff);
     padding-top: 70px;
+}
+
+.dashboard-icon {
+    text-decoration: none;
+    color: black;
+    transition: transform .2s;
+    
+    border-bottom: 2px solid black;
+    /* border-left: 2px solid blue; */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.dashboard-icon:hover {
+    transform: translateY(-5px);
+}
+
+.icon-size {
+    font-size: 3rem;
+}
+/* subir el badge del dashboard arriba */
+.badge{
+     top: -5px;
 }

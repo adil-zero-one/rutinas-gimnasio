@@ -3,7 +3,9 @@
         <link rel="stylesheet" href="staticBg.css">
 @endsection
 @section('content')
- 
+ @section('navbar')
+     
+ @endsection
 <x-guest-layout>
    @if (session('noAdminNoLogin'))
         <div class="alert alert-danger text-center mt-3">
@@ -13,7 +15,7 @@
 
     <x-auth-session-status class="mb-3" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" id="login-form" action="{{ route('login') }}">
         @csrf
 
         <div class="mb-3">
@@ -43,7 +45,7 @@
 
         <div class="d-flex justify-content-between align-items-center">
             @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="text-muted small">
+                <a href="{{ route('password.request') }}#forgot-form" class="text-muted small">
                     ¿Has olvidado tu contraseña?
                 </a>
             @endif
@@ -53,7 +55,7 @@
         <hr>
         <div class="text-center small">
             ¿No tienes cuenta?
-            <a href="{{ route('register') }}">regístrate</a>
+            <a href="{{ route('register') }}#register-form">regístrate</a>
         </div>
     </form>
 </x-guest-layout>

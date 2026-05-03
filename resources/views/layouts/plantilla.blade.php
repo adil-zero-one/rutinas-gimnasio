@@ -22,7 +22,18 @@ asi no tendre que repiterlo en cada fitxer que añado --}}
     en vez de usar @if (Auth::check()) else.. --}}
     {{-- @auth --}}
     {{-- logeado muestra --}}
+
+    {{-- buscaba una manera de hacer exclude al navbar 
+    para que no aparezca en el register form y el login form 
+    porque como el navbar tiene posicion fixa me da una molestia de aliniacion
+    no puedo creer que laravel no tiene implementado una funcion simple de @exclude('algo')
+    y asi no aparece ese algo cuando haces un extend de la plantilla :( 
+    la manera mas simple era meterlo en una seccion y despues hacer un ovveride --}}
+    @section('navbar')      
     @include('layouts.navigation')
+    @endsection
+    @yield('navbar')
+    
     <div class="container-fluid">
 
         @yield('content')

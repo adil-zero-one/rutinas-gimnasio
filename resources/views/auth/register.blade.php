@@ -3,8 +3,12 @@
         <link rel="stylesheet" href="staticBg.css">
 @endsection
 <x-guest-layout>
-
-    <form method="POST" action="{{ route('register') }}">
+    {{-- override del navbar  --}}
+    @section('navbar')
+        {{-- no muestras nada --}}
+    @endsection
+    {{-- le dare un id para hacer un scrool al redirigir al register --}}
+    <form method="POST" id="register-form" action="{{ route('register') }}">
         @csrf
 
         <div class="mb-3">
@@ -69,7 +73,7 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
-            <a href="{{ route('login') }}" class="text-muted small">Ya tienes cuenta?</a>
+            <a href="{{ route('login') }}#login-form" class="text-muted small">Ya tienes cuenta?</a>
             <button type="submit" class="btn btn-primary">Registrar-se</button>
         </div>
     </form>

@@ -8,6 +8,13 @@
 en una practica de javaScript en classe hemos hecho esta actividad
 de dark-light mode, lo implemento aqui tambien  --}}
     <button class="btn btn-dark m-2 mb-0 text" id="toggle-mode"><span class="text">Dark</span></button>
+    <div class="container text-center mt-5">
+        <h1 class="fw-bold">"Tu gimnasio. Tu progreso. Tu mejor versión."</h1>
+        <p class="lead mt-3">
+            Entrena con rutinas personalizadas, descubre ejercicios guiados y sigue tu evolución día a día.
+        </p>
+    </div>
+
     <div class="container my-5">
         <div class="row g-4">
 
@@ -20,9 +27,14 @@ de dark-light mode, lo implemento aqui tambien  --}}
 
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $item }}</h5>
-
-                            <a href="#loginSection" class="btn btn-primary discover-btn">
-                                Descúbrelo
+                            {{-- no digais mi secreta a los alumnos --}}
+                            {{-- https://icons.getbootstrap.com/ --}}
+                            <a href="#loginSection" class="btn btn-outline-primary discover-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-symmetry-horizontal" viewBox="0 0 16 16">
+                                    <path
+                                        d="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376M11.539 10H3v4.658z" />
+                                </svg> Descúbrelo
                             </a>
                         </div>
                     </div>
@@ -43,8 +55,7 @@ de dark-light mode, lo implemento aqui tambien  --}}
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
                     <input id="email" type="email" name="email" value="{{ old('email') }}"
-                        class="form-control @error('email') is-invalid @enderror" required autofocus
-                        autocomplete="username">
+                        class="form-control @error('email') is-invalid @enderror" autocomplete="username">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -83,7 +94,7 @@ de dark-light mode, lo implemento aqui tambien  --}}
                 <!-- REGISTER -->
                 <div class="text-center small">
                     ¿No tienes cuenta?
-                    <a href="{{ route('register') }}">Regístrate</a>
+                    <a href="{{ route('register') }}#register-form">Regístrate</a>
                 </div>
 
             </form>
@@ -91,6 +102,8 @@ de dark-light mode, lo implemento aqui tambien  --}}
         </div>
     </div>
 
+    {{-- Si hay tiempo añade un footer con mapa(donde encontrarnos?) 
+    contacto, redes sociales..? --}}
 
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>

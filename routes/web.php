@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RutinaController;
 use App\Http\Controllers\ExerciciController;
 use App\Models\Exercici;
@@ -22,16 +23,19 @@ Route::get('/', function () {
     lo redirige al landing page que tenia login y cosas que el usuario
     no quiero que vea, entonces si esta logeado lo voy a redirigir al dashboard
     */
-    if(Auth::check()){
-        return view('dashboard');
+    if (Auth::check()) {
+        // all retornar la vista asi me daba error, porque pasaba variables desde el controlador
+        // y aqui directamente redirigir de la vista daba error y laravel no conocia estos variables
+        // return view('dashboard');
+        // lo pasare al controlador
+        return redirect()->route('dashboard');
     }
     return view('welcome', compact('exercicis'));
 });
 
 // lo que devolvere cuando un usuario esta logeado
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,9 +54,11 @@ Route::middleware(['asegurarAdmin'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.principal');
-    Route::get('/ejercicios', [ExerciciController::class, 'index'])->name('exercicis.principal');
+    // Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.principal');
+    // Route::get('/ejercicios', [ExerciciController::class, 'index'])->name('exercicis.principal');
     // Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.principal');
+    Route::resource('ejercicios', ExerciciController::class);
+    Route::resource('categorias', CategoriaController::class);
     Route::resource('rutinas', RutinaController::class);
 });
 require __DIR__ . '/auth.php';

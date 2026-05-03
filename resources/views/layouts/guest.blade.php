@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Nuevo Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -13,7 +13,7 @@
         <div class="card shadow" style="width: 100%; max-width: 420px;">
             <div class="card-body p-4">
                 <div class="text-center mb-4">
-                    <h4 class="fw-bold">{{ config('app.name', 'Laravel') }}</h4>
+                    <a href="/" class="btn btn-outline-primary">MiGimnasio</a>
                 </div>
                 {{ $slot }}
             </div>

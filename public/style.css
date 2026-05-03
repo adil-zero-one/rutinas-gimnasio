@@ -100,7 +100,7 @@ body {
 /* Hover suave */
 .login-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(40, 183, 255, 0.25);
+    box-shadow: 0 0px 30px rgba(0, 255, 149, 0.25);
 }
 
 /* Posicion fixa del button dark mode */
