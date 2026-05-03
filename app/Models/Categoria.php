@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     // taulas que se van a omplir massivaamente
-    protected $fillable = ['nom', 'descripcio'];
+    // ALERTA: 
+    // voy a añadir una columna que guarda imagenes en categoria
+    // para mostrarlo en el index de categoria
+    // queda feo sin imagenes de la categoria, espero que no pete laravel al hacer eso
+
+    protected $fillable = ['nom', 'descripcio', 'imagen'];
 
     // Funcion para acceder a la informacion de todos los ejercicios
 

@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->text('descripcio');
+            // columna añadida por estetica
+            // (6 horas despues: espero no habermelo hecho) 
+            // pero valio la pena
+            $table->string('imagen')->nullable();
             $table->timestamps();
+            // php artisan migrate:fresh --seed
         });
     }
 

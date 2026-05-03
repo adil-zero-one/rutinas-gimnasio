@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 
 use Illuminate\Http\Request;
+// para soporte imagenes
+use Illuminate\Support\Facades\Storage;
 
 class CategoriaController extends Controller
 {
@@ -38,16 +40,20 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         // validar los datos introducidos en el formulario
-        $request->validate([
+        $validar = $request->validate([
             'nom' => 'required',
-            'descripcio' => 'required'
+            'descripcio' => 'required',
+            'imagen' => 'nullable|image|max:2048'
         ]);
-
+        // soporte imagenes desde el exercici controller (origin)
+        if ($request->hasFile('imagen')) {
+            $validar['imagen'] = Storage::put('categorias', $request->imagen);
+        }
         // llamar al model encargado de la columna i guardar la categoria nueva
         // apartir de lo que viene en el formulario
-        Categoria::create($request->all());
+        Categoria::create($validar);
         // redirigir a la llista de categorias con un mensaje
-        return redirect()->route('categoria.principal')->with('categoriaCreada', 'Categoria creada correctamente');
+        return redirect()->route('categorias.index')->with('categoriaCreada', 'Categoria creada correctamente');
     }
 
     /**
@@ -71,31 +77,57 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * PORFIIIIIIN HE ENCONTRADO LA SOLUCION DESPUES DE HORAS DEBUGING
+     * EL UPDATE ME DABA UN ERROR THE PATH MUST NOT BE EMPTY, SINCERAMENTE HE USADO
+     * 2 IA DIFERENTES PARA PODER SOLUCIONARLO Y NADA SON LAS 23:47 Y PORFIN SE HA RESUELTO
+     * VALE LA PENA? SI
+     * LA SOLUCION ESTA AQUI (STACKOVERFLOW) SIGUE BRILLANDO EN LA ERA DE LA IA <3
+     * https://stackoverflow.com/questions/70093647/path-cannot-be-empty-laravel
      */
     public function update(Request $request, Categoria $categoria)
     {
         // validar los datos
-        $request->validate([
+        $validar = $request->validate([
             'nom' => 'required',
-            'descripcio' => 'required'
+            'descripcio' => 'required',
+            'imagen' => 'nullable|image|max:2048',
         ]);
 
+        // si sube nueva imagen → borrar la antigua
+        if ($request->hasFile('imagen')) {
+            // borrar la imagen antigua si existe
+            if ($categoria->imagen) {
+                Storage::delete($categoria->imagen);
+                // Storage::disk('public')->delete($categoria->imagen);
+
+            }
+            // subir el nuevo imagen
+            $validar['imagen'] = Storage::put('categorias', $request->imagen);
+        }
+
         // actualizar categoria
-        $categoria->update($request->all());
+        $categoria->update($validar);
 
         // redirigir a la vista principal
-        return redirect()->route('categorias.principal')->with('categoriaActualizada',
-        'Categoria actualizada correctamente');
+        return redirect()->route('categorias.index')->with(
+            'categoriaActualizada',
+            'Categoria actualizada correctamente'
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categoria $categoria)
+    public function destroy(string $id)
     {
+        $categoria = Categoria::findOrFail($id);
+        // borro el imagen del storage y asi no se ocumulan imagenes
+        if ($categoria->imagen) {
+            Storage::delete($categoria->imagen);
+            // Storage::disk('public')->delete($categoria->imagen);
+        }
         $categoria->delete();
 
-        return redirect()->route('categoria.principal')->with('categoriaBorrada', 'Categoria borrada correctamente');
+        return redirect()->route('categorias.index')->with('categoriaBorrada', 'Categoria borrada correctamente');
     }
 }

@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        // Exercici::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Test User',
@@ -43,6 +42,12 @@ class DatabaseSeeder extends Seeder
         llamaba el seeder de categoria i de admin
         esta bien si no tienes muchos seeders, sino no sera buena opcion la tercera!
         */
+
+        /* ALFINAL VOY A USAR EL FAKER EN VEZ DEL TINKER
+        PORQUE CON EL TINKER SE HACER UN REFRESH SALTARA UN ERROR DE Undefined array key 0
+        PORQUE AL ACCCEDIR LA POSICION $I NO ENCUENTRA LAS IMAGENES
+        */
+        Exercici::factory(10)->create();
 
     }
 }
