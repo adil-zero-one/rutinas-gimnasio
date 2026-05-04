@@ -11,127 +11,166 @@
     <link rel="stylesheet" href="staticBg.css">
 @endsection
 @section('content')
-    {{-- SALUDO --}}
-    <h1 class="fw-bold text-center mb-4">
-        @if (auth()->user()->email === 'admin@admin.cat')
-            Hola Admin!
-        @else
-            Hola sucio {{ Auth::user()->name }}
-        @endif
-    </h1>
+    <div class="container py-5">
+        {{-- SALUDO --}}
+        <h1 class="fw-bold text-center mb-4">
+            @if (auth()->user()->email === 'admin@admin.cat')
+                Hola Admin!
+            @else
+                Hola sucio {{ Auth::user()->name }}
+            @endif
+        </h1>
 
-    {{-- ICONOS PRINCIPALES --}}
-    <div class="d-flex justify-content-center gap-5 my-4">
+        {{-- ICONOS PRINCIPALES --}}
+        <div class="d-flex justify-content-center gap-5 my-4">
 
-        <a href="{{ route('categorias.index') }}" class="text-center dashboard-icon">
-            <p class="mt-2 fw-semibold border-bottom position-relative">Categorías
-                {{-- badges laravel --}}
-                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
-                    {{ $categorias->count() }}
-                </span>
-            </p>
-        </a>
+            <a href="{{ route('categorias.index') }}" class="text-center dashboard-icon">
+                <p class="mt-2 fw-semibold border-bottom position-relative">Categorías
+                    {{-- badges laravel --}}
+                    <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                        {{ $categorias->count() }}
+                    </span>
+                </p>
+            </a>
 
-        <a href="{{ route('rutinas.index') }}" class="text-center dashboard-icon">
-            <p class="mt-2 fw-semibold position-relative">Rutinas
-                {{-- badges laravel --}}
-                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
-                    {{ $rutinas->count() }}
-                </span>
-            </p>
-        </a>
+            <a href="{{ route('rutinas.index') }}" class="text-center dashboard-icon">
+                <p class="mt-2 fw-semibold position-relative">Rutinas
+                    {{-- badges laravel --}}
+                    <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                        {{ $rutinas->count() }}
+                    </span>
+                </p>
+            </a>
 
-        <a href="{{ route('ejercicios.index') }}" class="text-center dashboard-icon">
-            <p class="mt-2 fw-semibold position-relative">Ejercicios
-                {{-- badges laravel --}}
-                <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
-                    {{-- este solo mostraba 6 porque esta variable pasa el paginator (6) aunque habia mas ejercicios en bd --}}
-                    {{-- {{ $exercicis->count() }} --}}
-                    {{ $exercicisTotals->count() }}
-                </span>
-            </p>
-        </a>
+            <a href="{{ route('ejercicios.index') }}" class="text-center dashboard-icon">
+                <p class="mt-2 fw-semibold position-relative">Ejercicios
+                    {{-- badges laravel --}}
+                    <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">
+                        {{-- este solo mostraba 6 porque esta variable pasa el paginator (6) aunque habia mas ejercicios en bd --}}
+                        {{-- {{ $exercicis->count() }} --}}
+                        {{ $exercicisTotals->count() }}
+                    </span>
+                </p>
+            </a>
 
-    </div>
+        </div>
 
-    <hr class="my-5">
+        <hr class="my-5">
 
-    {{-- CATEGORÍAS --}}
-    <h2 class="fw-semibold mb-3 text-center">Nuestras categorías</h2>
+        {{-- CATEGORÍAS --}}
+        <h2 class="fw-semibold mb-3 text-center">Nuestras categorías</h2>
 
-    <div class="row g-3">
-        @for ($i = 0; $i < 3; $i++)
-            <div class="col-12 col-md-4">
-                <div class="card custom-card p-3 text-center">
-                    <h5>{{ $categorias[$i]->nom }}</h5>
+        <div class="row g-3">
+            @for ($i = 0; $i < 3; $i++)
+                <div class="col-12 col-md-4">
+                    <div class="card custom-card p-3 text-center">
+                        <h5>{{ $categorias[$i]->nom }}</h5>
+                        @if ($categorias[$i]->imagen)
+                            <img src="{{ asset('storage/' . $categorias[$i]->imagen) }}" class="card-img-top"
+                                style="height: 180px; object-fit: cover;">
+                        @endif
+                    </div>
+                </div>
+            @endfor
+
+            {{-- TARJETA MÁS CATEGORÍAS --}}
+            {{-- edit: centrada en medio, mas garnde y con icono bootstrap --}}
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-12 col-md-4">
+                    <a href="{{ route('categorias.index') }}"
+                        class="card custom-card p-3  text-decoration-none text-center">
+                        <h5 class="fw-bold text-primary text-center"> {{-- libreria bootstrap 
+                                https://icons.getbootstrap.com/ --}}
+                            Más categorías <i class="bi bi-arrow-right-square "></i>
+                            <link rel="stylesheet"
+                                href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+                        </h5>
+                    </a>
                 </div>
             </div>
-        @endfor
 
-        {{-- TARJETA MÁS CATEGORÍAS --}}
-        <div class="col-12 col-md-4">
-            <a href="{{ route('categorias.index') }}" class="card custom-card p-3 text-center">
-                <h5 class="fw-bold">+ Más categorías</h5>
-            </a>
         </div>
 
-    </div>
+        <hr class="my-5">
 
-    <hr class="my-5">
+        {{-- RUTINAS --}}
 
-    {{-- RUTINAS --}}
-    <h2 class="fw-semibold mb-3 text-center">Tus rutinas</h2>
+        {{-- Si es admin le mostrare las rutinas que han añadido los usuarios/clientes 
+        recientamente, pero no le dejare modificar/ni borrarlas solo verlas --}}
+        @if (Auth::user()->email === 'admin@admin.cat')
+            <h2 class="fw-semibold mb-3 text-center">Rutinas recientes de los usuarios</h2>
 
-    @if ($rutinas->count() === 0)
-        <p class="text-muted">Oops… no tienes rutinas creadas aún :(</p>
+            @if ($rutinasUsuarios->count() === 0)
+                <p class="text-muted text-center">Ningún usuario ha creado rutinas aún.</p>
+            @else
+                <div class="row g-3">
+                    @foreach ($rutinasUsuarios as $rutina)
+                        <div class="col-12 col-md-4">
+                            <div class="card custom-card p-3">
+                                <h5>{{ $rutina->nom }}</h5>
+                                <p class="text-muted small">Creada por: {{ $rutina->user->name }}</p>
+                                {{-- Admin solo puede ver, no editar ni borrar --}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @else
+            <h2 class="fw-semibold mb-3 text-center">Tus rutinas</h2>
 
-        <a href="{{ route('rutinas.create') }}" class="btn btn-primary mt-2">
-            + Crear rutina
-        </a>
+            @if ($rutinas->count() === 0)
+                <p class="text-muted">Oops… no tienes rutinas creadas aún :(</p>
 
-        {{-- RUTINA DE EJEMPLO --}}
-        <div class="card custom-card mt-4 p-3">
-            <h5>Rutina de ejemplo</h5>
-            <p>Puedes modificarla a tu gusto.</p>
-        </div>
-    @else
+                <a href="{{ route('rutinas.create') }}" class="btn btn-primary mt-2">
+                    + Crear rutina
+                </a>
+
+                {{-- RUTINA DE EJEMPLO --}}
+                <div class="card custom-card mt-4 p-3">
+                    <h5>Rutina de ejemplo</h5>
+                    <p>Puedes modificarla a tu gusto.</p>
+                </div>
+            @else
+                <div class="row g-3">
+                    @foreach ($rutinas as $rutina)
+                        <div class="col-12 col-md-4">
+                            <div class="card custom-card p-3">
+                                <h5>{{ $rutina->nom }}</h5>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
+
+
+        <hr class="my-5">
+
+        {{-- EJERCICIOS --}}
+        <h2 class="fw-semibold mb-3 text-center">Ejercicios que podrían interesarte</h2>
+
         <div class="row g-3">
-            @foreach ($rutinas as $rutina)
-                <div class="col-12 col-md-4">
-                    <div class="card custom-card p-3">
-                        <h5>{{ $rutina->nom }}</h5>
+            @foreach ($exercicis as $exercici)
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card custom-card p-2 text-center">
+                        <img src="{{ $exercici->imatge }}" class="img-fluid rounded">
+                        <h6 class="mt-2">{{ $exercici->nom }}</h6>
                     </div>
                 </div>
             @endforeach
         </div>
-    @endif
 
-    <hr class="my-5">
+        {{-- copia pegar paginator estilo de proyecto estudiantes  --}}
+        <div class="d-flex justify-content-center mt-4">
 
-    {{-- EJERCICIOS --}}
-    <h2 class="fw-semibold mb-3 text-center">Ejercicios que podrían interesarte</h2>
+            {{-- Mostrando: {{$estudiantes->count()}} estudiantes de {{ $estudiantes -> total()}} --}}
+            Mostrando {{ $exercicis->firstItem() }} al {{ $exercicis->lastItem() }} de {{ $exercicis->total() }}
+            resultados
 
-    <div class="row g-3">
-        @foreach ($exercicis as $exercici)
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card custom-card p-2 text-center">
-                    <img src="{{ $exercici->imatge }}" class="img-fluid rounded">
-                    <h6 class="mt-2">{{ $exercici->nom }}</h6>
-                </div>
-            </div>
-        @endforeach
-    </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
 
-    {{-- copia pegar paginator estilo de proyecto estudiantes  --}}
-    <div class="d-flex justify-content-center mt-4">
-
-        {{-- Mostrando: {{$estudiantes->count()}} estudiantes de {{ $estudiantes -> total()}} --}}
-        Mostrando {{ $exercicis->firstItem() }} al {{ $exercicis->lastItem() }} de {{ $exercicis->total() }}
-        resultados
-
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-
-        {{ $exercicis->links() }}
+            {{ $exercicis->links() }}
+        </div>
     </div>
 @endsection

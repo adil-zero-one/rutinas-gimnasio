@@ -58,7 +58,10 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/ejercicios', [ExerciciController::class, 'index'])->name('exercicis.principal');
     // Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.principal');
     Route::resource('ejercicios', ExerciciController::class);
-    Route::resource('categorias', CategoriaController::class);
+    // fix cliente solo puede ver el index y no puede modificar nada, asi:
+    // Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+    // o mas simple:
+    Route::resource('categorias', CategoriaController::class)->only(['index']);
     Route::resource('rutinas', RutinaController::class);
 });
 require __DIR__ . '/auth.php';

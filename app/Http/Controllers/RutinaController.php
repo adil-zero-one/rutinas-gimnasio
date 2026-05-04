@@ -38,8 +38,16 @@ class RutinaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // me saltaba el error de create nueva rutina del
+        // ( Field 'client_id' doesn't have a default value )
+        // encontre la solucion aqui:
+        // https://stackoverflow.com/questions/43651446/general-error-1364-field-user-id-doesnt-have-a-default-value
+        // resumen no habia validado el id del usuario, porque eran (me acabo de darme cuenta)
+        // tenia un fallo grave en el controlador de rutinas
         $validator = $request->validate([
+            'client_id' => auth()->id,
+            // o asi:
+            // 'client_id' => Auth::user()->id,
             'nom' => 'required',
             'resum' => 'required',
             // la pongo como integer y despues añado min string?
