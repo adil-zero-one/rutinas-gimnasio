@@ -84,8 +84,10 @@ class CategoriaController extends Controller
      * LA SOLUCION ESTA AQUI (STACKOVERFLOW) SIGUE BRILLANDO EN LA ERA DE LA IA <3
      * https://stackoverflow.com/questions/70093647/path-cannot-be-empty-laravel
      */
-    public function update(Request $request, Categoria $categoria)
+    public function update(Request $request, $id)
     {
+        $categoria = Categoria::findOrFail($id);
+
         // validar los datos
         $validar = $request->validate([
             'nom' => 'required',
@@ -108,8 +110,8 @@ class CategoriaController extends Controller
         // actualizar categoria
         $categoria->update($validar);
 
-        // redirigir a la vista principal
-        return redirect()->route('categorias.index')->with(
+        // redirigir a la misma vista  del edit con mensaje flash
+        return redirect()->route('categorias.edit', $id)->with(
             'categoriaActualizada',
             'Categoria actualizada correctamente'
         );

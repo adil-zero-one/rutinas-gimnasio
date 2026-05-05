@@ -16,8 +16,14 @@
         <h1 class="fw-bold text-center mb-4">
             @if (auth()->user()->email === 'admin@admin.cat')
                 Hola Admin!
+                {{-- mensaje flash intenta entrar a http://rutinas_gimnas.test/rutinas/4/edit siendo admin  --}}
+                @if (session('adminTrampa'))
+                    <div class="alert alert-danger text-center mb-3 mt-3">
+                        {{ session('adminTrampa') }}
+                    </div>
+                @endif
             @else
-                Hola sucio {{ Auth::user()->name }}
+                Hola socio {{ Auth::user()->name }}
             @endif
         </h1>
 
@@ -100,15 +106,15 @@
         @if (Auth::user()->email === 'admin@admin.cat')
             <h2 class="fw-semibold mb-3 text-center">Rutinas recientes de los usuarios</h2>
 
-            @if ($rutinasUsuarios->count() === 0)
+            @if ($rutinas->count() === 0)
                 <p class="text-muted text-center">Ningún usuario ha creado rutinas aún.</p>
             @else
                 <div class="row g-3">
-                    @foreach ($rutinasUsuarios as $rutina)
+                    @foreach ($rutinas as $rutina)
                         <div class="col-12 col-md-4">
                             <div class="card custom-card p-3">
-                                <h5>{{ $rutina->nom }}</h5>
-                                <p class="text-muted small">Creada por: {{ $rutina->user->name }}</p>
+                                <h5 class="text-center">{{ $rutina->nom }}</h5>
+                                <p class="text-muted small">Creada por: {{ $rutina->client->user->name }}</p>
                                 {{-- Admin solo puede ver, no editar ni borrar --}}
                             </div>
                         </div>
@@ -119,14 +125,15 @@
             <h2 class="fw-semibold mb-3 text-center">Tus rutinas</h2>
 
             @if ($rutinas->count() === 0)
-                <p class="text-muted">Oops… no tienes rutinas creadas aún :(</p>
+                <p class="text-muted text-center">Oops… no tienes rutinas creadas aún :(</p>
 
-                <a href="{{ route('rutinas.create') }}" class="btn btn-primary mt-2">
+                <a href="{{ route('rutinas.create') }}"
+                    class="btn btn-primary mt-2 text-center d-flex justify-content-center">
                     + Crear rutina
                 </a>
 
                 {{-- RUTINA DE EJEMPLO --}}
-                <div class="card custom-card mt-4 p-3">
+                <div class="card custom-card text-center mt-4 p-3">
                     <h5>Rutina de ejemplo</h5>
                     <p>Puedes modificarla a tu gusto.</p>
                 </div>
@@ -134,11 +141,44 @@
                 <div class="row g-3">
                     @foreach ($rutinas as $rutina)
                         <div class="col-12 col-md-4">
-                            <div class="card custom-card p-3">
-                                <h5>{{ $rutina->nom }}</h5>
+                            <div class="card p-3 shadow-sm">
+                                <h5 class="fw-bold mb-1">{{ $rutina->nom }}</h5>
+                                <p class="text-muted mb-1">
+                                    {{ $rutina->resum }}
+                                </p>
+                                <p class="fw-semibold mb-0">
+                                    Duración: {{ $rutina->duracio }} min
+                                </p>
                             </div>
                         </div>
                     @endforeach
+                    {{-- Card: Mira tus rutinas --}}
+                    <div class="col-12 col-md-4">
+                        <a href="{{ route('rutinas.index') }}" class="text-decoration-none">
+                            <div class="card p-3 shadow-sm h-100 d-flex flex-column justify-content-center text-center">
+
+                                <h5 class="fw-bold text-primary">
+                                    Mira tus rutinas
+                                    <i class="bi bi-arrow-right-square"></i>
+                                </h5>
+
+                            </div>
+                        </a>
+                    </div>
+
+                    {{-- Card: Crear rutina --}}
+                    <div class="col-12 col-md-4">
+                        <a href="{{ route('rutinas.create') }}" class="text-decoration-none">
+                            <div class="card p-3 shadow-sm h-100 d-flex flex-column justify-content-center text-center">
+
+                                <h5 class="fw-bold text-success">
+                                    Crear rutina
+                                    <i class="bi bi-plus-circle"></i>
+                                </h5>
+
+                            </div>
+                        </a>
+                    </div>
                 </div>
             @endif
         @endif

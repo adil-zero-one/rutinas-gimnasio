@@ -10,6 +10,11 @@
 
         <h1 class="fw-bold mb-4">Editar categoria</h1>
 
+        @if (session('categoriaActualizada'))
+            <div class="alert alert-warning text-center">
+                {{ session('categoriaActualizada') }}
+            </div>
+        @endif
         <form action="{{ route('categorias.update', $categoria->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -41,7 +46,7 @@
             </div>
 
             <button class="btn btn-warning">Actualizar</button>
-            <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Tornar</a>
+            <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Volver</a>
         </form>
 
     </div>

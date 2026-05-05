@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Rutina;
 use App\Models\Exercici;
 use App\Models\Categoria;
+use App\Models\User;
+use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+
 class RutinaController extends Controller
 {
     /**
@@ -16,11 +19,19 @@ class RutinaController extends Controller
     public function index()
     {
         // si lo pongo en el middleware del cliente sera suficiente?
-        $rutinas = Rutina::all();
+        // cambiar despues para mostrar solo rutinas de clientes propios
+        // admin ve todas las rutinas, cliente solo las suyas
+        if (Auth::user()->email === 'admin@admin.cat') {
+            $rutinas = Rutina::all();
+        } else {
+            $client = Auth::user()->client;
+            $rutinas = $client->rutinas;
+        }
         // asi para poder añadir rutinas basadas del exercicis que ya existen
         // o escogir categoria etc..
         $exercicis = Exercici::all();
         $categorias = Categoria::all();
+        // variable para contar todas las rutinas que haya en basa de datos, (para aadmin)
         return view('rutinas.index', compact('rutinas', 'exercicis', 'categorias'));
     }
 
@@ -45,7 +56,7 @@ class RutinaController extends Controller
         // resumen no habia validado el id del usuario, porque eran (me acabo de darme cuenta)
         // tenia un fallo grave en el controlador de rutinas
         $validator = $request->validate([
-            'client_id' => auth()->id,
+            // 'client_id' => auth()->id,
             // o asi:
             // 'client_id' => Auth::user()->id,
             'nom' => 'required',
@@ -53,12 +64,15 @@ class RutinaController extends Controller
             // la pongo como integer y despues añado min string?
             // rutina -> duracio }} mins 
             // bueno recordar poner el type number o algo
-            'duracio' => 'required'
+            'duracio' => 'required|integer|min:1'
         ]);
+        // validar el client_id y despues guardar lo que viene del formulario hacia ese cliente
+        $validator['client_id'] = auth()->user()->client->id;
+
 
         Rutina::create($validator);
 
-        return redirect()->route('rutinas.index');
+        return redirect()->route('rutinas.index')->with('rutinaCreada', 'Rutina creada correctamente!');
     }
 
     /**
@@ -98,7 +112,7 @@ class RutinaController extends Controller
         ]);
         // actualizar
         $rutina->update($validator);
-        return redirect()->route('rutinas.index')->with('rutinaActualizar', 'Rutina actualizada correctamente');
+        return redirect()->route('rutinas.edit', $id)->with('rutinaActualizada', 'Rutina actualizada correctamente');
     }
 
     /**
@@ -108,6 +122,6 @@ class RutinaController extends Controller
     {
         $rutina = Rutina::findOrFail($id);
         $rutina->delete();
-        return redirect()->route('rutinas.index');
+        return redirect()->route('rutinas.index')->with('rutinaBorrada', 'Rutina borrada correctamente!');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AsegurarAdminIsValid;
+use App\Http\Middleware\SoloCliente;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'asegurarAdmin' => AsegurarAdminIsValid::class,
+            'soloCliente' => SoloCliente::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

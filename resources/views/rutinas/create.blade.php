@@ -2,12 +2,24 @@
 @section('titulo')
     Nueva rutina
 @endsection
+@section('css')
+   <link rel="stylesheet" href="{{ asset('staticBg.css') }}">
+@endsection
 @section('content')
 
     <div class="container py-5">
 
         <h1 class="fw-bold mb-4 mt-4 text-center">Crear nueva rutina</h1>
-
+        {{-- mostrar todos los errores que salen en el formulario --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('rutinas.store') }}" method="POST">
             @csrf
 
@@ -29,9 +41,10 @@
                 <input type="number" name="duracio" class="form-control" min="1" required>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">
+            <button type="submit" class="btn btn-primary">
                 Guardar rutina
             </button>
+            <a href="{{ route('rutinas.index') }}" class="btn btn-secondary">Volver</a>
 
         </form>
 

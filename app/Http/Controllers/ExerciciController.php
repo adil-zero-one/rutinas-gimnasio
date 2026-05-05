@@ -29,7 +29,7 @@ class ExerciciController extends Controller
      */
     public function create()
     {
-        // aqui el usuario escogera en que categoria creara su ejercicio
+        // aqui el admin escogera en que categoria creara el ejercicio
         $categorias = Categoria::all();
         // redirigir donde rellenara el usuari el formulario
         return view('exercici.create', compact('categorias'));
@@ -47,7 +47,7 @@ class ExerciciController extends Controller
         $validarDatosFormulario = $request->validate(
             [
                 'nom' => 'required|min:3|max:100',
-                'descripcio' => 'nullable|min:10',
+                'descripcio' => 'required|min:10',
                 // para sacar en que categoria partenece el ejercicio que quiere
                 // añadir el cliente
                 'categoria_id' => 'required|numeric',
@@ -93,7 +93,7 @@ class ExerciciController extends Controller
         // save() al ejercicio apartir de lo que viene del validator arriba
         Exercici::create($validarDatosFormulario);
 
-        return redirect()->route('exercicis.principal')->with('exerciciCreado', 'Ejercicio creado correctamente!');
+        return redirect()->route('ejercicios.index')->with('exerciciCreado', 'Ejercicio creado correctamente!');
     }
 
     /**
@@ -140,15 +140,23 @@ class ExerciciController extends Controller
             ]
         );
 
-        // seguramente me faltara un parametro de imagen?? 
-        // (miirar despues cuando creas la vista si fallara o deja actualizar normal)
+        // aqui me faltaba actualizar y borrar imagenes antiguas(mirar categoria controller)
+        // si sube nueva imagen → borrar la antigua
+        if ($request->hasFile('imatge')) {
+            // borrar la imagen antigua si existe
+            if ($exercici->imatge) {
+                Storage::delete($exercici->imatge);
+            }
+            // subir el nuevo imagen
+            $validarDatosFormulario['imatge'] = Storage::put('exercicis', $request->imatge);
+        }
 
         // actualizar 
         $exercici->update($validarDatosFormulario);
 
         //redirigir
         // redirect('/modificar/estudiante/' . $id)
-        return redirect()->route('exercici.edit', $id)->with('exerciciModifcado', 'Ejercicio modificado correctamente');
+        return redirect()->route('ejercicios.edit', $id)->with('exerciciModifcado', 'Ejercicio modificado correctamente');
     }
 
     /**
@@ -158,7 +166,11 @@ class ExerciciController extends Controller
     {
         //
         $exercici = Exercici::findOrFail($id);
+        // borro el imagen del storage y asi no se ocumulan imagenes
+        if ($exercici->imatge) {
+            Storage::delete($exercici->imatge);
+        }
         $exercici->delete();
-        return redirect()->route('exercicis.principal')->with('exerciciBorrado', 'Ejercicio borrado completamente!');
+        return redirect()->route('ejercicios.index')->with('exerciciBorrado', 'Ejercicio borrado completamente!');
     }
 }

@@ -19,6 +19,18 @@
             </div>
         @endif
 
+        {{-- FLASH MESSAGES --}}
+        @if (session('categoriaCreada'))
+            <div class="alert alert-success text-center">
+                {{ session('categoriaCreada') }}
+            </div>
+        @endif
+
+        @if (session('categoriaBorrada'))
+            <div class="alert alert-danger text-center">
+                {{ session('categoriaBorrada') }}
+            </div>
+        @endif
         <div class="row g-4 mb-4" id="categorias">
             @foreach ($categorias as $categoria)
                 <div class="col-12 col-md-4">

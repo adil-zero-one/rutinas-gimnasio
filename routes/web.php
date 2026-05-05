@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
 Route::middleware(['asegurarAdmin'])->group(function () {
     Route::get('/admin', function () {
         return "Hola Admin!";
@@ -51,18 +53,28 @@ Route::middleware(['asegurarAdmin'])->group(function () {
     // en vez de difinir cada ruta aqui index, create, destroy..
     // laravel lo hace automaticamente
     Route::resource('categorias', CategoriaController::class);
+    // el admin solamente podra ver las rutinas de un cliente
+    Route::resource('rutinas', RutinaController::class)->only(['index']);
+    Route::resource('ejercicios', ExerciciController::class);
+});
+
+// he creado un middleware de cliente donde verifico que el cliente no sea admin
+// asi quito el derecho al admin a modificar o tocar rutinas de clientes
+Route::middleware(['auth', 'soloCliente'])->group(function () {
+    Route::resource('rutinas', RutinaController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.principal');
     // Route::get('/ejercicios', [ExerciciController::class, 'index'])->name('exercicis.principal');
     // Route::get('/rutinas', [RutinaController::class, 'index'])->name('rutinas.principal');
-    Route::resource('ejercicios', ExerciciController::class);
+
+    // el cliente nomes podra ver el index de los ejercicios (el llistado)
+    Route::resource('ejercicios', ExerciciController::class)->only(['index']);
     // fix cliente solo puede ver el index y no puede modificar nada, asi:
     // Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
     // o mas simple:
     Route::resource('categorias', CategoriaController::class)->only(['index']);
-    Route::resource('rutinas', RutinaController::class);
 });
 require __DIR__ . '/auth.php';
 
