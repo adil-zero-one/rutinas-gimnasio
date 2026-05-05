@@ -8,7 +8,17 @@
 en una practica de javaScript en classe hemos hecho esta actividad
 de dark-light mode, lo implemento aqui tambien  --}}
     <button class="btn btn-dark m-2 mb-0 text" id="toggle-mode"><span class="text">Dark</span></button>
+
     <div class="container text-center mt-5">
+        @if ($errors->any())
+            <div class="alert alert-danger text-center">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <h1 class="fw-bold">"Tu gimnasio. Tu progreso. Tu mejor versión."</h1>
         <p class="lead mt-3">
             Entrena con rutinas personalizadas, descubre ejercicios guiados y sigue tu evolución día a día.

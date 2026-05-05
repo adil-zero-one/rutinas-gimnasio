@@ -44,7 +44,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
 Route::middleware(['asegurarAdmin'])->group(function () {
     Route::get('/admin', function () {
         return "Hola Admin!";
@@ -54,7 +53,11 @@ Route::middleware(['asegurarAdmin'])->group(function () {
     // laravel lo hace automaticamente
     Route::resource('categorias', CategoriaController::class);
     // el admin solamente podra ver las rutinas de un cliente
-    Route::resource('rutinas', RutinaController::class)->only(['index']);
+    // Route::resource('rutinas', RutinaController::class)->only(['index']);
+    // despues de muchas peleas(el ultimo bug (creo)) admin no podia accedir al index, o si puede
+    // el cliente no podra accedir al index de rutina, una de las dos
+    // entonces hare un url separado del index rutinas admin asi no habra conflictos
+    Route::get('/admin/rutinas', [RutinaController::class, 'index'])->name('adminRutinas.index');
     Route::resource('ejercicios', ExerciciController::class);
 });
 

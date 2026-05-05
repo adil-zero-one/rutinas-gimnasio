@@ -39,7 +39,7 @@
                 </p>
             </a>
 
-            <a href="{{ route('rutinas.index') }}" class="text-center dashboard-icon">
+            <a href="{{  $rutinasUrl }}" class="text-center dashboard-icon">
                 <p class="mt-2 fw-semibold position-relative">Rutinas
                     {{-- badges laravel --}}
                     <span class="position-absolute top-10 start-150 translate-middle badge rounded-pill bg-info">

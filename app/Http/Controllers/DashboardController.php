@@ -33,6 +33,12 @@ class DashboardController extends Controller
         porque la variable exercici solo muestra 6 al hacer el count */
         $exercicisTotals = Exercici::all();
         $clients = Client::all();
-        return view('dashboard', compact('categorias', 'rutinas', 'exercicis', 'exercicisTotals', 'clients'));
+
+        /* como he separado las rutas del index de rutinas por conflictos del index admin contra cliente
+        voy a guardar las rutas que corresponden en una variable para usarla a redirigir
+        (he difinido esta variable en el dashboard view pero no era lo ideal)
+        */
+        $rutinasUrl = Auth::user()->email === 'admin@admin.cat' ? route('adminRutinas.index') : route('rutinas.index');
+        return view('dashboard', compact('categorias', 'rutinas', 'exercicis', 'exercicisTotals', 'clients', 'rutinasUrl'));
     }
 }

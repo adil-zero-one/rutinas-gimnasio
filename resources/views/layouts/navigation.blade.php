@@ -24,7 +24,11 @@
                     </li>
 
                     <li class="nav-item">
+                        @if (Auth::user()->email === 'admin@admin.cat')
+                            <a class="nav-link" href="{{ route('adminRutinas.index') }}">Rutinas</a>
+                        @else
                         <a class="nav-link" href="{{ route('rutinas.index') }}">Rutinas</a>
+                        @endif
                     </li>
 
                     <li class="nav-item">
