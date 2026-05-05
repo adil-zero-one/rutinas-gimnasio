@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Container\Attributes\Database;
 use Illuminate\Http\Request;
 use App\Models\Rutina;
 use App\Models\Exercici;
@@ -41,7 +42,8 @@ class RutinaController extends Controller
     public function create()
     {
         // redirigir nomas
-        return view('rutinas.create');
+        $exercicis = Exercici::all();
+        return view('rutinas.create', compact('exercicis'));
     }
 
     /**
@@ -64,9 +66,10 @@ class RutinaController extends Controller
             // la pongo como integer y despues añado min string?
             // rutina -> duracio }} mins 
             // bueno recordar poner el type number o algo
-            'duracio' => 'required|integer|min:1'
+            'duracio' => 'required|integer|min:1',
         ]);
         // validar el client_id y despues guardar lo que viene del formulario hacia ese cliente
+        // $client = Auth::user()->client;
         $validator['client_id'] = auth()->user()->client->id;
 
 
@@ -115,13 +118,70 @@ class RutinaController extends Controller
         return redirect()->route('rutinas.edit', $id)->with('rutinaActualizada', 'Rutina actualizada correctamente');
     }
 
+    public function pivotSeriesRepes(Request $request, string $id)
+    {
+        $rutina = Rutina::findOrFail($id);
+        // validar series i repes
+        $request->validate([
+            'exercici_id' => 'required|integer',
+            'series' => 'required|integer|min:1',
+            'repeticions' => 'required|integer|min:1',
+        ]);
+        // validar el ejercicio si no existe 404
+        $exercici = Exercici::findOrFail($request->exercici_id);
+
+        // Evitar duplicados (extra)
+        if ($rutina->exercicis->contains($exercici->id)) {
+            return redirect()->route('rutinas.show', $id)->with('duplicadoRutina', 'Este ejercicio ya lo tienes en tus rutinas.');
+        }
+
+        // insertar en el pivot
+        $rutina->exercicis()->attach($exercici->id, [
+            'series'      => $request->series,
+            'repeticions' => $request->repeticions,
+        ]);
+
+        // redirigo al show por si quiere modificar o hacerle mas cosas el usuario a la rutina
+        return redirect()->route('rutinas.show', $id)->with('rutinaNueva', 'Se ha añadido el ejercicio correctamente!');
+    }
+
+    public function borrarPivot(string $rutinaId, string $exerciciId)
+    {
+        $rutina = Rutina::findOrFail($rutinaId);
+
+        $rutina->exercicis()->detach($exerciciId);
+
+        return redirect()->route('rutinas.show', $rutinaId)
+            ->with('exerciciEliminat', 'Ejercicio eliminado correctamente!');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         $rutina = Rutina::findOrFail($id);
+        //limpiar pivot antes de borrar
+        $rutina->exercicis()->detach();
         $rutina->delete();
         return redirect()->route('rutinas.index')->with('rutinaBorrada', 'Rutina borrada correctamente!');
+    }
+
+    public function updatePivot(Request $request, string $rutinaId, string $exerciciId)
+    {
+        $rutina = Rutina::findOrFail($rutinaId);
+
+        $request->validate([
+            'series' => 'required|integer|min:1',
+            'repeticions' => 'required|integer|min:1',
+        ]);
+
+        $rutina->exercicis()->updateExistingPivot($exerciciId, [
+            'series' => $request->series,
+            'repeticions' => $request->repeticions,
+        ]);
+
+        return redirect()->route('rutinas.show', $rutinaId)
+            ->with('pivotActualizado', 'Series i repeticiones axtualizados!');
     }
 }

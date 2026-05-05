@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercici;
 use App\Models\Categoria;
+use App\Models\Rutina;
 use Illuminate\Http\Request;
 // para soporte imagenes
 use Illuminate\Support\Facades\Storage;

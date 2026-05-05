@@ -65,6 +65,15 @@ Route::middleware(['asegurarAdmin'])->group(function () {
 // asi quito el derecho al admin a modificar o tocar rutinas de clientes
 Route::middleware(['auth', 'soloCliente'])->group(function () {
     Route::resource('rutinas', RutinaController::class);
+    // rutas del pivot
+    // añadir eejercicio to rutina (attach)
+    Route::post('/rutinas/{rutina}/añadir', [RutinaController::class, 'pivotSeriesRepes'])->name('rutinas.addExercici');
+
+    // DELETE exercise from rutina (detach)
+    Route::delete('/rutinas/{rutina}/{exercici}/borrar', [RutinaController::class, 'borrarPivot'])->name('rutinas.borrarPivot');
+
+    // actualizar pivot (series + repeticions)
+    Route::put('/rutinas/{rutina}/{exercici}/actualizar', [RutinaController::class, 'updatePivot'])->name('rutinas.updatePivot');
 });
 
 Route::middleware(['auth'])->group(function () {

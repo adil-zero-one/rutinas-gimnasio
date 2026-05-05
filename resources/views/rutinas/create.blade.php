@@ -3,7 +3,7 @@
     Nueva rutina
 @endsection
 @section('css')
-   <link rel="stylesheet" href="{{ asset('staticBg.css') }}">
+    <link rel="stylesheet" href="{{ asset('staticBg.css') }}">
 @endsection
 @section('content')
 
@@ -22,11 +22,21 @@
         @endif
         <form action="{{ route('rutinas.store') }}" method="POST">
             @csrf
-
             {{-- Nombre --}}
             <div class="mb-3">
                 <label class="form-label fw-semibold">Nombre de la rutina</label>
                 <input type="text" name="nom" class="form-control" required>
+            </div>
+            {{-- mi habia olvidado de la tabla entre-media series y repes.. 🥲 --}}
+            {{-- $table->integer('series'); --}}
+            {{-- $table->integer('repeticions'); --}}
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Numero de series</label>
+                <input type="number" name="series" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Numero de repeticions</label>
+                <input type="number" name="repeticions" class="form-control" required>
             </div>
 
             {{-- Resumen --}}
