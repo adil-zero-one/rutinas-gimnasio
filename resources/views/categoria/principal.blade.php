@@ -5,16 +5,16 @@
 @section('content')
     <div class="container py-5">
         @if (auth()->user()->email === 'admin@admin.cat')
-            <h1 class="text-center text-danger">Hola Admin</h1>
+            <h1 class="text-center text-danger hover-card">Hola Admin</h1>
         @endif
-        <h1 class="fw-bold text-center mb-4">Nuestras categorías</h1>
-        <p class="text-center text-muted mb-4">
+        <h1 class="fw-bold text-center mb-4 hover-card">Nuestras categorías</h1>
+        <p class="text-center text-muted mb-4 hover-card">
             Estas son nuestras categorías principales. Cada una representa un grupo muscular distinto.
         </p>
 
         {{-- Dejare este buton arriba por si hay muchas categorias creadas --}}
         @if (auth()->user()->email === 'admin@admin.cat')
-            <div class="text-end mb-4 text-center">
+            <div class="text-end mb-4 text-center  hover-card">
                 <a href="{{ route('categorias.create') }}" class="btn btn-outline-primary">Crear categoria</a>
             </div>
         @endif
@@ -34,7 +34,7 @@
         <div class="row g-4 mb-4" id="categorias">
             @foreach ($categorias as $categoria)
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm  hover-card">
                         {{-- TODAS LAS IMAGENES SUBIDAS SE HAN COMPRIMIDO ANTES DE SUBIRLAS --}}
                         @if ($categoria->imagen)
                             <img src="{{ asset('storage/' . $categoria->imagen) }}" class="card-img-top"
@@ -48,11 +48,11 @@
                             @if (auth()->user()->email === 'admin@admin.cat')
                                 <div class="d-flex justify-content-center gap-2 mt-3">
                                     <a href="{{ route('categorias.edit', $categoria->id) }}"
-                                        class="btn btn-warning btn-sm">Editar</a>
+                                        class="btn btn-warning btn-sm hover-card">Editar</a>
                                     <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                        <button class="btn btn-danger btn-sm hover-card">Eliminar</button>
                                     </form>
                                 </div>
                             @endif
@@ -65,7 +65,7 @@
             @if (auth()->user()->email === 'admin@admin.cat')
                 <div class="col-12 col-md-4">
                     <a href="{{ route('categorias.create') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4">
+                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4 hover-card">
 
                             <div class="text-center">
                                 <div class="mb-3">
@@ -85,7 +85,7 @@
                 {{-- si es cliente entonces mandarlo a crear rutina --}}
                 <div class="col-12 col-md-4">
                     <a href="{{ route('rutinas.create') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4">
+                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4 hover-card">
 
                             <div class="text-center">
                                 <div class="mb-3">

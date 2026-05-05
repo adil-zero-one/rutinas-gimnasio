@@ -9,17 +9,17 @@
     <div class="container py-5">
 
         @if (auth()->user()->email === 'admin@admin.cat')
-            <h1 class="text-center text-danger">Hola Admin</h1>
+            <h1 class="text-center text-danger hover-card">Hola Admin</h1>
         @endif
-        <h1 class="fw-bold text-center mb-4">Nuestros ejercicios</h1>
-        <p class="text-center text-muted mb-4">
+        <h1 class="fw-bold text-center mb-4 hover-card">Nuestros ejercicios</h1>
+        <p class="text-center text-muted mb-4 hover-card">
             Estas son nuestros ejercicios descatados. sientete libre a añadirlos en tu rutina.
         </p>
 
         {{-- Dejare este buton arriba por si hay muchas categorias creadas --}}
         @if (auth()->user()->email === 'admin@admin.cat')
             <div class="text-end mb-4 text-center">
-                <a href="{{ route('ejercicios.create') }}" class="btn btn-outline-primary">Añadir un ejercicio</a>
+                <a href="{{ route('ejercicios.create') }}" class="btn btn-outline-primary hover-card">Añadir un ejercicio</a>
             </div>
         @endif
 
@@ -39,7 +39,7 @@
         <div class="row g-4 mb-4" id="categorias">
             @foreach ($exercicis as $exercici)
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm hover-card">
                         {{-- ESTAS IMAGENES SON UN URL SUBIDO CON EL FAKER --}}
                         {{-- Aqui necesitaba un if else para poder mostrar las dos imagenes 
                         las del faker que iban con url y las otras que el admin podra crear que estan en public --}}
@@ -78,7 +78,7 @@
             @if (auth()->user()->email === 'admin@admin.cat')
                 <div class="col-12 col-md-4">
                     <a href="{{ route('ejercicios.create') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4">
+                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4 hover-card">
 
                             <div class="text-center">
                                 <div class="mb-3">
@@ -98,7 +98,7 @@
                 {{-- si es cliente entonces mandarlo a crear rutina --}}
                 <div class="col-12 col-md-4">
                     <a href="{{ route('rutinas.create') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4">
+                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4 hover-card">
 
                             <div class="text-center">
                                 <div class="mb-3">

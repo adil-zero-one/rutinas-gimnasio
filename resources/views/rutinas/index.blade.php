@@ -9,10 +9,10 @@
     <div class="container py-5">
 
         @if (auth()->user()->email !== 'admin@admin.cat')
-            <h1 class="fw-bold text-center mb-4">Tus rutinas</h1>
+            <h1 class="fw-bold text-center mb-4 hover-card">Tus rutinas</h1>
         @else
-            <h1 class="fw-bold text-center text-danger mb-4">Hola Admin</h1>
-            <p class="text-muted text-center mb-4">
+            <h1 class="fw-bold text-center text-danger mb-4 hover-card">Hola Admin</h1>
+            <p class="text-muted text-center mb-4 hover-card">
                 Los usuarios han creado {{ $rutinas->count() }} rutinas en total
             </p>
         @endif
@@ -32,7 +32,7 @@
 
         {{-- Botón crear rutina solo visible al cliente --}}
         @if (auth()->user()->email !== 'admin@admin.cat')
-            <div class="text-center mb-4">
+            <div class="text-center mb-4 hover-card">
                 <a href="{{ route('rutinas.create') }}" class="btn btn-primary">
                     Crear nueva rutina
                 </a>
@@ -42,7 +42,7 @@
         <div class="row g-4">
             @foreach ($rutinas as $rutina)
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm hover-card">
 
                         <div class="card-body text-center">
                             <h5 class="fw-bold">{{ $rutina->nom }}</h5>
@@ -50,18 +50,18 @@
                             <p class="fw-semibold">{{ $rutina->duracio }} min</p>
                             @if (auth()->user()->email !== 'admin@admin.cat')
                                 <div class="d-flex justify-content-center gap-2 mt-3">
-                                    <a href="{{ route('rutinas.show', $rutina->id) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('rutinas.show', $rutina->id) }}" class="btn btn-info btn-sm hover-card">
                                         Ver
                                     </a>
 
-                                    <a href="{{ route('rutinas.edit', $rutina->id) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('rutinas.edit', $rutina->id) }}" class="btn btn-warning btn-sm hover-card">
                                         Editar
                                     </a>
 
                                     <form action="{{ route('rutinas.destroy', $rutina->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm">
+                                        <button class="btn btn-danger btn-sm hover-card">
                                             Eliminar
                                         </button>
                                     </form>
@@ -75,7 +75,7 @@
             @if (auth()->user()->email !== 'admin@admin.cat')
                 <div class="col-12 col-md-4">
                     <a href="{{ route('rutinas.create') }}" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4">
+                        <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center p-4 hover-card">
 
                             <div class="text-center">
                                 <div class="mb-3">
@@ -91,7 +91,7 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
             {{-- Botón para volver --}}
             <div class="text-center mb-4">
-                <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                <a href="{{ route('dashboard') }}" class="btn btn-secondary hover-card">
                     Volver al dashboard
                 </a>
             </div>
