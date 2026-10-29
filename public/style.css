@@ -5,7 +5,7 @@
 
 /* Fondo degradado */
 body {
-    background: linear-gradient(to right, #7474fe, #fc1616);
+    background: linear-gradient(to right, #fdfeff, #1057a7);
     min-height: 100vh;
     /* añado padding hacia arriba asi no se comeria el navbar el contenido del body 
     al añadir posicion fixa del navbar */

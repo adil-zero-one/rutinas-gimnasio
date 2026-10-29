@@ -7,7 +7,7 @@
     {{-- script toggle mode light switch dark -> light 
 en una practica de javaScript en classe hemos hecho esta actividad
 de dark-light mode, lo implemento aqui tambien  --}}
-    <button class="btn btn-dark m-2 mb-0 text" id="toggle-mode"><span class="text">Dark</span></button>
+    <button class="btn btn-dark m-2 mb-0 mt-4 text" id="toggle-mode"><span class="text">Dark</span></button>
 
     <div class="container text-center mt-5">
         @if ($errors->any())
